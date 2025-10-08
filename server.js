@@ -7,6 +7,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ✅ Health check route (new)
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", message: "HeartChat backend is running ❤️" });
+});
+
+// Existing root route
 app.get("/", (req, res) => {
   res.send("HeartChat Backend is Running ❤️");
 });
