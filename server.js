@@ -4,23 +4,34 @@ import { Server } from "socket.io";
 import cors from "cors";
 
 const app = express();
-app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "https://heart-chat-frontend-p6gu.vercel.app",
+      "http://localhost:5173"
+    ],
+    methods: ["GET", "POST"],
+  })
+);
 app.use(express.json());
 
-// ✅ Health check route (new)
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", message: "HeartChat backend is running ❤️" });
-});
-
-// Existing root route
 app.get("/", (req, res) => {
   res.send("HeartChat Backend is Running ❤️");
 });
 
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", message: "Backend is healthy 💪" });
+});
+
 const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: [
+      "https://heart-chat-frontend-p6gu.vercel.app",
+      "http://localhost:5173"
+    ],
     methods: ["GET", "POST"],
   },
 });
